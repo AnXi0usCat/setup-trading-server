@@ -15,7 +15,7 @@ services:
 
 
   model_deployment:
-    image: trading-server-image:latest
+    image: 877472877532.dkr.ecr.ap-northeast-1.amazonaws.com/trading_server_repository:latest
     ports:
       - 8081:8080
     restart: always
