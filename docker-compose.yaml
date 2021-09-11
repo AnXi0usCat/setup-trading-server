@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    restart: always
+    ports:
+      - 5434:5432
+    environment:
+      - "POSTGRES_USER=${POSTGRES_USER}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "POSTGRES_DB=${POSTGRES_DB}"
+    volumes:
+      - ./startup-scripts/:/docker-entrypoint-initdb.d/
+
+
+  model_deployment:
+    image: trading-server-image:latest
+    ports:
+      - 8081:8080
+    restart: always
+    environment:
+      - "DATABASE_NAME=${DATABASE_NAME}"
+      - "DATABASE_HOST=${DATABASE_HOST}"
+      - "DATABASE_PORT=${DATABASE_PORT}"
+      - "DATABASE_USER=${DATABASE_USER}"
+      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
+      - "API_KEY=${API_KEY}"
+      - "API_SECRET=${API_SECRET}"
+      - "TRADABLE=${TRADABLE}"
+    depends_on:
+      - postgres
+
+volumes:
+  tartup-scripts:
